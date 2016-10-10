@@ -46,3 +46,39 @@
   padding: .2em .3em;
   border-radius: .2em;
 }
+
+
+/* FlexBox */
+.col {
+  flex-direction: column;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.flex {
+  flex: 1;
+  display: flex;
+  position: relative;
+}
+
+.center-align {
+  align-items: center;
+  
+}
+.center-justify {
+  justify-content: center;
+}
+
+/* Navigation */
+.NavBar {
+  height: 120px;
+  z-index: 2;
+  margin: 10px;
+  
+}
+.NavBar > * {
+  margin-left: 10px;
+  margin-right: 10px;
+}
