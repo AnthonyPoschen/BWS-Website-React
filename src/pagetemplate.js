@@ -1,10 +1,10 @@
-
+import './App.css'
 
 import React from 'react'
 import AppBar from 'material-ui/AppBar';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import {browserHistory} from 'react-router'
-
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 let PageTemplate = React.createClass({
 
@@ -21,14 +21,17 @@ let PageTemplate = React.createClass({
             browserHistory.push(tab.props['data-route']);  
         }
         return <div>
-                <AppBar title="My App">
-                    <Tabs value={this.props.location.pathname}>
-                        <Tab value="/" label="Home" data-route="/" onActive={handleActive}>
-                        </Tab>
-                        <Tab value="/Blog" label="Blog" data-route="/Blog" onActive={handleActive}>
-                        </Tab>
-                    </Tabs>
-                </AppBar>
+                <Toolbar>
+                    <ToolbarGroup firstChild={true}>
+                        <ToolbarTitle text="Brainwave Studios" />
+                        <Tabs value={this.props.location.pathname} >
+                            <Tab value="/" label="Home" data-route="/" onActive={handleActive} >
+                            </Tab>
+                            <Tab value="/Blog" label="Blog" data-route="/Blog" onActive={handleActive} >
+                            </Tab>
+                        </Tabs>
+                    </ToolbarGroup>
+                </Toolbar>
                 
                 <div>{this.props.children}</div>
             </div>
