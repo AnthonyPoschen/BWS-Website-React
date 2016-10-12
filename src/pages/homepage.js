@@ -8,6 +8,7 @@ let HomePage = React.createClass({
         return <div className="PageHeader">
             <h2>Home Page</h2>
             <Link to="/Blog">Blog Page</Link>
+            
         </div>
     }
 })
