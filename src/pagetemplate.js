@@ -1,10 +1,13 @@
 import './App.css'
+import './bootstrap.min.css'
+import './bootstrap-theme.min.css'
 
 import React from 'react'
-import AppBar from 'material-ui/AppBar';
-import {Tabs, Tab} from 'material-ui/Tabs';
+//import AppBar from 'material-ui/AppBar';
+//import {Tabs, Tab} from 'material-ui/Tabs';
 import {browserHistory} from 'react-router'
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+//import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import { Button, Navbar, Nav, NavItem,NavDropdown } from 'react-bootstrap';
 
 let PageTemplate = React.createClass({
 
@@ -21,17 +24,17 @@ let PageTemplate = React.createClass({
             browserHistory.push(tab.props['data-route']);  
         }
         return <div>
-                <Toolbar>
-                    <ToolbarGroup firstChild={true}>
-                        <ToolbarTitle text="Brainwave Studios" />
-                        <Tabs value={this.props.location.pathname} >
-                            <Tab value="/" label="Home" data-route="/" onActive={handleActive} >
-                            </Tab>
-                            <Tab value="/Blog" label="Blog" data-route="/Blog" onActive={handleActive} >
-                            </Tab>
-                        </Tabs>
-                    </ToolbarGroup>
-                </Toolbar>
+                <Navbar>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <a href="/">My App</a>
+                        </Navbar.Brand>
+                    </Navbar.Header>
+                    <Nav>
+                        <NavItem eventKey={1} href="#">Link</NavItem>
+                        <NavItem eventKey={2} href="#">Link</NavItem>
+                    </Nav>
+                </Navbar>
                 
                 <div>{this.props.children}</div>
             </div>
