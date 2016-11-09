@@ -1,13 +1,12 @@
 import './App.css'
-import './bootstrap.min.css'
-import './bootstrap-theme.min.css'
+
 
 import React from 'react'
 //import AppBar from 'material-ui/AppBar';
 //import {Tabs, Tab} from 'material-ui/Tabs';
 import {browserHistory} from 'react-router'
 //import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import { Button, Navbar, Nav, NavItem,NavDropdown } from 'react-bootstrap';
+import { Button, Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap';
 
 let PageTemplate = React.createClass({
 
