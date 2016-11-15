@@ -4,9 +4,11 @@ import './App.css'
 import React from 'react'
 //import AppBar from 'material-ui/AppBar';
 //import {Tabs, Tab} from 'material-ui/Tabs';
-import {browserHistory} from 'react-router'
+import {browserHistory, Link} from 'react-router'
 //import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import { Button, Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap';
+import { Button, Navbar, Nav, NavItem, NavDropdown, Col, Grid } from 'react-bootstrap';
+
+import { LinkContainer } from 'react-router-bootstrap';
 
 let PageTemplate = React.createClass({
 
@@ -26,16 +28,20 @@ let PageTemplate = React.createClass({
                 <Navbar>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a href="/">My App</a>
+                            <Link to="/">Brainwave Studios</Link>
                         </Navbar.Brand>
                     </Navbar.Header>
                     <Nav>
-                        <NavItem eventKey={1} href="#">Link</NavItem>
-                        <NavItem eventKey={2} href="#">Link</NavItem>
+                        <LinkContainer to="/"><NavItem eventKey={1} >Home</NavItem></LinkContainer>
+                        <LinkContainer to="/Blog"><NavItem eventKey={2} >Blog</NavItem></LinkContainer>
+                        <LinkContainer to="/About"><NavItem eventKey={3} >About</NavItem></LinkContainer>
                     </Nav>
                 </Navbar>
-                
-                <div>{this.props.children}</div>
+                <Grid>
+                    {/* Main Content*/}
+                    <div>{this.props.children}</div>
+                    {/* Footer */}
+                </Grid>
             </div>
         
     }
