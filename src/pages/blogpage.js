@@ -4,7 +4,7 @@ import Blog from '../components/blog.js'
 import BlogPost from './blogpost.js'
 import {fetchBlogPage} from '../actions'
 import {connect} from 'react-redux'
-import { PageHeader } from 'react-bootstrap'; 
+import { PageHeader , Well, ListGroup, ListGroupItem } from 'react-bootstrap'; 
 
 const mapStateToProps = (state , ownProps) => {
     return {
@@ -36,13 +36,16 @@ let BlogPage = React.createClass({
 
     render() {
      return <div>
-        <PageHeader>Blog Page</PageHeader>
+        <PageHeader>Blog</PageHeader>
+        <well>
         {this.props.blogs.map((post) => (
-            <div key={post.id} className="BlogHeader">
-                <Link to={'/BlogPost/' + post.id + '/' + post.Title.replace(/ /g,"_")}><h3>{post.Title}</h3></Link>
-                <p>Author: {post.author} on {post.date}</p>
-            </div>
+            <Link to={'/BlogPost/' + post.id + '/' + post.Title.replace(/ /g,"_")}>
+            <ListGroupItem key={post.id} header={post.Title}>
+                <small>Author: {post.author} on {post.date}</small>
+            </ListGroupItem>
+            </Link>
         ))}
+        </well>
      </div>   
     }
 })

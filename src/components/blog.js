@@ -1,28 +1,48 @@
 import React from 'react'
 import {Link} from 'react-router'
-import BlogPost from '../pages/blogpost.js'
-// contains a refrence to all blog posts curently available
+import {connect} from 'react-redux'
+
+import {well , ListGroupItem } from 'react-bootstrap'
+
+
+const mapStateToProps = (state , ownProps) => {
+    return {
+        posts: state.blog.blogs,
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        myClick: () => {
+            console.log("Dispatching")
+            dispatch(testAction())    
+        }
+    
+    }
+}
+
 let Blog = React.createClass({
 
     render() {
         // TODO: fetch this infromation from the server.
-        var posts = [
-            {id: 1, title: "Blog Post 1",content: "<p>This is the text for the <b>blog post</b></p>",url:"/Blog/post/1"},
-            {id: 2, title: "A seocnd post",content: "<p>look im a <b>blogger</b></p>",url:"/Blog/post/2"},
-        ];
+        var posts = this.props.posts.slice(0,8);
+        console.log('Testing homie');
         //<li key={post.id}>{post.title} - {post.content}</li>
         return (
-        <div className="BlogContainer">
-            <h2>Blogs go under here</h2>
-               
-            {posts.map((post) => (
-                <BlogPost key={post.id} {...post}></BlogPost>
-            ))}
+        <div>
+        <well>
+        {posts.map((post) => (
+            <Link to={'/BlogPost/' + post.id + '/' + post.Title.replace(/ /g,"_")}>
+            <ListGroupItem key={post.id}>
+                <h3>{post.Title} </h3>
+                <small>Author: {post.author} on {post.date}</small>
+            </ListGroupItem>
+            </Link>
+        ))}
+        </well>
         </div>
         )
     }
 })
 
-export default Blog
-
-// Blog post fetches BlogPosts
+export default connect(mapStateToProps,mapDispatchToProps)(Blog)

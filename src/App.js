@@ -29,7 +29,7 @@ let App = React.createClass({
         <Route component={PageTemplate}>
           <Route path="/" component={HomePage} />
           <Route path="/BlogPost/:id/:title" component={BlogPost} />
-          <Route path="/Blog/" component={BlogPage} />
+          <Route path="/Blog" component={BlogPage} />
           <Route path="/Admin" component={AdminPage} />
           <Route path="/About" component={AboutPage} />
         </Route>
