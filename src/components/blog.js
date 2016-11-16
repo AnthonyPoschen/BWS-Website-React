@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router'
-import BlogPost from './blogpost.js'
+import BlogPost from '../pages/blogpost.js'
 // contains a refrence to all blog posts curently available
 let Blog = React.createClass({
 

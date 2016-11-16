@@ -5,10 +5,11 @@ import {Link} from 'react-router'
 
 import {} from '../actions'
 import {connect} from 'react-redux'
-
+import { PageHeader } from 'react-bootstrap'; 
 const mapStateToProps = (state , ownProps) => {
     return {
-        value: state.test
+        posts: state.blog.blogs,
+        
     }
 }
 
@@ -24,11 +25,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 let BlogPost = React.createClass({
     render() {
+        var post = this.props.posts.filter( obj => {return obj.id == this.props.params.id})[0]
+        console.log(this.props)
+        if(post === 'undefined') 
+            return <div></div>
         return (
             // Blog post is setup here
             <div>
-                <h3>{this.props.Title}</h3>
-                <div dangerouslySetInnerHTML={{__html:this.props.content }}></div>
+                <PageHeader>{post.Title}</PageHeader>
+                <div dangerouslySetInnerHTML={{__html:post.content }}></div>
             </div>
         )
     }

@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router'
 import Blog from '../components/blog.js'
-import BlogPost from '../components/blogpost.js'
+import BlogPost from './blogpost.js'
 import {fetchBlogPage} from '../actions'
 import {connect} from 'react-redux'
 import { PageHeader } from 'react-bootstrap'; 
@@ -38,7 +38,10 @@ let BlogPage = React.createClass({
      return <div>
         <PageHeader>Blog Page</PageHeader>
         {this.props.blogs.map((post) => (
-            <BlogPost key={post.id} {...post} />
+            <div key={post.id} className="BlogHeader">
+                <Link to={'/BlogPost/' + post.id + '/' + post.Title.replace(/ /g,"_")}><h3>{post.Title}</h3></Link>
+                <p>Author: {post.author} on {post.date}</p>
+            </div>
         ))}
      </div>   
     }
