@@ -69,7 +69,7 @@ let HomePage = React.createClass({
                                 Get In Touch
                             </h3>
                             <div>
-                                Facebook Icon | Twitter Icon | Email Icon | RSS Icon
+                                Facebook | Twitter | Email | RSS
                             </div>
                         </div>
                     </Col>

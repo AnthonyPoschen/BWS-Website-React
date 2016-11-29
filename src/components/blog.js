@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import {connect} from 'react-redux'
 
 import {well , ListGroupItem } from 'react-bootstrap'
-
+import {fetchBlogPage} from '../actions'
 
 const mapStateToProps = (state , ownProps) => {
     return {
@@ -14,32 +14,33 @@ const mapStateToProps = (state , ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         myClick: () => {
-            console.log("Dispatching")
-            dispatch(testAction())    
+            console.log("Dispatching")   
+        },
+        onLoad: () => {
+            console.log("Fetching page")
+            dispatch(fetchBlogPage(0,50))
         }
-    
     }
 }
 
 let Blog = React.createClass({
-
+    componentDidMount(){this.props.onLoad();},
     render() {
         // TODO: fetch this infromation from the server.
         var posts = this.props.posts.slice(0,8);
-        console.log('Testing homie');
         //<li key={post.id}>{post.title} - {post.content}</li>
         return (
         <div>
-        <well>
+        
         {posts.map((post) => (
-            <Link to={'/BlogPost/' + post.id + '/' + post.Title.replace(/ /g,"_")}>
-            <ListGroupItem key={post.id}>
-                <h3>{post.Title} </h3>
+            <Link key={post.id} to={'/BlogPost/' + post.id + '/' + post.Title.replace(/ /g,"_")}>
+            <div >
+                <p>{post.Title} </p>
                 <small>Author: {post.author} on {post.date}</small>
-            </ListGroupItem>
+            </div>
             </Link>
         ))}
-        </well>
+        
         </div>
         )
     }
