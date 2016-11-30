@@ -22,6 +22,7 @@ func main() {
 func apiOverview(w http.ResponseWriter, r *http.Request) {
 	// return the api layout (maybe viaswagger instead of manually handling this crap)
 	w.Write([]byte("Hit Backend"))
+	log.Println("Request responded")
 }
 
 func addBlog(w http.ResponseWriter, r *http.Request) {
