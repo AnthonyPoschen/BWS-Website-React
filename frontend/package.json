@@ -20,7 +20,7 @@
     "react-redux": "latest",
     "react-router": "^2.8.1",
     "react-router-bootstrap": "latest",
-    "react-tap-event-plugin": "^1.0.0",
+    "react-tap-event-plugin": "^2.0.0",
     "redux": "latest"
   },
   "devDependencies": {

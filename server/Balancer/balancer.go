@@ -25,11 +25,6 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer resp.Body.Close()
-
-	if err != nil {
-		log.Println(err)
-		return
-	}
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Println(err)
@@ -39,5 +34,17 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func webpageHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Test WebPage"))
+	resp, err := http.Get("http://webfront:8002" + r.URL.Path)
+	if err != nil {
+		log.Println(err)
+		// return a 404 later?
+		return
+	}
+	defer resp.Body.Close()
+	data, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	w.Write(data)
 }

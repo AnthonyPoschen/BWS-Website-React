@@ -1,4 +1,4 @@
 @echo off
 
-docker stop api balancer
-docker rm api balancer
+docker stop api balancer webfront
+docker rm api balancer webfront
