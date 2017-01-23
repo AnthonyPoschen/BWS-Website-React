@@ -1,0 +1,1 @@
+start ./gcd/gcd.sh start -p 8500 -a 0.0.0.0 ./gcd/tmp-dir

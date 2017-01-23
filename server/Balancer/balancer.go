@@ -18,7 +18,6 @@ func main() {
 
 func apiHandler(w http.ResponseWriter, r *http.Request) {
 	// forward this to the api backend
-	w.Write([]byte("test Backend\n"))
 	resp, err := http.Get("http://api:8001/api")
 	if err != nil {
 		log.Println(err)

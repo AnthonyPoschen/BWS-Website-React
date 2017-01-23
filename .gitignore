@@ -1,1 +1,4 @@
 server/webfront/www/
+server/datastore-temp/
+server/gcd/
+server/datastore-local/gcd/CloudDatastore.jar

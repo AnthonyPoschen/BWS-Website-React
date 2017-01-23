@@ -4,7 +4,8 @@ import React from 'react'
 
 import {Router , Route , Link, browserHistory} from 'react-router'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore , applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 
 import reducer from './reducers/index.js'
 
@@ -19,7 +20,7 @@ import BlogPost from './pages/blogpost.js'
 //import getMuiTheme from 'material-ui/styles/getMuiTheme';
 //<!-- Latest compiled and minified CSS -->
 
-const store = createStore(reducer)
+const store = createStore(reducer,applyMiddleware(thunk))
 
 let App = React.createClass({
   render() {
