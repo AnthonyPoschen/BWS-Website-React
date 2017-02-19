@@ -43,6 +43,7 @@ export const fetchBlogPage = (page , pagesize) => {
                     dispatch(blogPageErrorFetch(res.statusText))
                     return
                 }
+                console.log("Dispatching Recieved Blog Page")
                 dispatch(blogPageRecieved(res.data)) 
 
             },

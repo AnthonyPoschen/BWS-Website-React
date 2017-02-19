@@ -35,13 +35,16 @@ let BlogPage = React.createClass({
     },
 
     render() {
+    if (this.props.blogs === null) {
+        return <div> </div>
+    }
      return <div>
         <PageHeader>Blog</PageHeader>
         <well>
         {this.props.blogs.map((post) => (
-            <Link to={'/BlogPost/' + post.id + '/' + post.Title.replace(/ /g,"_")}>
-            <ListGroupItem key={post.id} header={post.Title}>
-                <small>Author: {post.author} on {post.date}</small>
+            <Link to={'/BlogPost/' + post.ID + '/' + post.Tittle}>
+            <ListGroupItem key={post.ID} header={post.Tittle}>
+                <small>Author: {post.AuthorName} on {post.PublishDate}</small>
             </ListGroupItem>
             </Link>
         ))}

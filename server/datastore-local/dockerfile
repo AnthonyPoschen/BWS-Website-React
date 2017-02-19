@@ -7,5 +7,5 @@ EXPOSE 8400
 ADD /gcd ./gcd
 
 VOLUME /data
-ENTRYPOINT ["/gcd/gcd.sh","start", "-p", "8400","-a","0.0.0.0", "/gcd/tmp-dir"]
+ENTRYPOINT ["/gcd/gcd.sh","start", "-p", "8400","-a","datastore", "/gcd/tmp-dir"]
 #ENTRYPOINT ["gcloud","beta","emulators","datastore","start","--project=brainwave-studios","--host-port","datastore:8500","--no-store-on-disk"]

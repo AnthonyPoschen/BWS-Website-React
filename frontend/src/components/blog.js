@@ -26,17 +26,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 let Blog = React.createClass({
     componentDidMount(){this.props.onLoad();},
     render() {
+        if(this.props.posts === null){
+            return (<div></div>)
+        }
         // TODO: fetch this infromation from the server.
         var posts = this.props.posts.slice(0,8);
+        
         //<li key={post.id}>{post.title} - {post.content}</li>
         return (
         <div>
         
         {posts.map((post) => (
-            <Link key={post.id} to={'/BlogPost/' + post.id + '/' + post.Title.replace(/ /g,"_")}>
+            <Link key={post.ID} to={'/BlogPost/' + post.ID + '/' + post.Tittle.replace(/ /g,"_")}>
             <div >
-                <p>{post.Title} </p>
-                <small>Author: {post.author} on {post.date}</small>
+                <p>{post.Tittle} </p>
+                <small>Author: {post.AuthorName} on {post.PublishDate}</small>
             </div>
             </Link>
         ))}

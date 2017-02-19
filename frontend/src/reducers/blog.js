@@ -1,14 +1,16 @@
 export default function blog(
     state = {
-        blogs: [{id:0,Title:'',content:'',date:'',author:''}],
+        blogs: [{ID:'',Tittle:'',Content:'',PublishDate:'',Author:''}],
         activeBlog: null} , 
     action) 
     {
     switch (action.type) {
         case 'BLOG_PAGE_RECIEVED':
-            console.log(action.payload)
-            return 
+            // Temp to print to console
+            console.log("Blogs updated xD")
+            console.log({...state , blogs: action.payload })
 
+            return Object.assign({},...state , {blogs: action.payload });
         case 'BLOG_FETCH':
         // fetch a blog in detail
             return {blogs:[{id:1,Title:'Test Blog',date:'somedate',content:'this is the content for a post',author:'Zanven'}],activeBlog: null};

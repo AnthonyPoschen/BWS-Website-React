@@ -1,0 +1,2 @@
+docker stop dynamodblocal
+docker rm dynamodblocal

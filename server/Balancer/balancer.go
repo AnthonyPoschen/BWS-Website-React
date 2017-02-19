@@ -1,15 +1,18 @@
 package main
 
 import (
+	"bytes"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 
 var bLocalDev = false
-var api = "api"
-var webfront = "webfront"
+var api = "localhost"
+var webfront = "localhost"
 
 // Init the balancer and start the server listener.
 func main() {
@@ -29,14 +32,26 @@ func main() {
 
 func apiHandler(w http.ResponseWriter, r *http.Request) {
 	// forward this to the api backend
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	req, err := http.NewRequest("POST", "http://localhost:8001"+r.URL.String(), bytes.NewBuffer(b))
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Println("Request Error:", err.Error())
+	}
+	req.Header = r.Header
+	client := http.Client{Timeout: time.Second * 5}
 
-	resp, err := http.Get("http://" + api + ":8001" + r.URL.String())
-	defer resp.Body.Close()
+	resp, err := client.Do(req)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	defer resp.Body.Close()
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Println(err)
@@ -49,12 +64,12 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 
 func webpageHandler(w http.ResponseWriter, r *http.Request) {
 	resp, err := http.Get("http://" + webfront + ":8002" + r.URL.Path)
-	defer resp.Body.Close()
 	if err != nil {
 		log.Println(err)
 		// return a 404 later?
 		return
 	}
+	defer resp.Body.Close()
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Println(err)
