@@ -22,6 +22,7 @@ import (
 var dev *bool
 
 func main() {
+
 	// Check tables exsist and if they dont create them.
 	dev = flag.Bool("dev", false, "If present the server expects a local hosted dynamodb connection")
 	flag.Parse()
@@ -35,8 +36,12 @@ func main() {
 	http.Handle("/addblog", admin.ThenFunc(addBlog))
 	http.Handle("/editblog", admin.ThenFunc(editBlog))
 	http.Handle("/deleteblog", admin.ThenFunc(deleteBlog))
-	http.Handle("/getblog", common.ThenFunc(fetchBlog))
+	http.Handle("/getblog", common.ThenFunc(getBlog))
 	http.Handle("/getbloglist", common.ThenFunc(fetchBlogPage))
+	http.Handle("/addauthor", nil)
+	http.Handle("/delauthor", nil)
+	http.Handle("/addcategory", nil)
+	http.Handle("/delcategory", nil)
 
 	log.Println(http.ListenAndServe(":8010", nil))
 }
@@ -146,8 +151,8 @@ func deleteBlog(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// fetchblog requires knowledge of the Key to be able to be fetched.
-func fetchBlog(w http.ResponseWriter, r *http.Request) {
+// getBlog requires knowledge of the Key to be able to be fetched.
+func getBlog(w http.ResponseWriter, r *http.Request) {
 	db, err := getdbSession(*dev)
 	defer r.Body.Close()
 	if err != nil {
@@ -159,30 +164,80 @@ func fetchBlog(w http.ResponseWriter, r *http.Request) {
 	err = decoder.Decode(&b)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
 		return
 	}
-	item, err := dynamodbattribute.MarshalMap(b)
 
-	output, err := db.GetItem(&dynamodb.GetItemInput{
-		TableName: aws.String(TableBlog),
-		Key:       item,
-	})
+	var items []map[string]*dynamodb.AttributeValue
+
+	if b.ID != "" {
+		out, err := db.Query(&dynamodb.QueryInput{
+			TableName:              aws.String(TableBlog),
+			KeyConditionExpression: aws.String("ID = :v_id"),
+			ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
+				":v_id": &dynamodb.AttributeValue{S: aws.String(b.ID)},
+			},
+		})
+		if err == nil {
+			items = out.Items
+		}
+	} else {
+		if b.Tittle != "" {
+			scaninput := dynamodb.ScanInput{
+				TableName:        aws.String(TableBlog),
+				FilterExpression: aws.String("Tittle = :v_Tittle"),
+				ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
+					":v_Tittle": &dynamodb.AttributeValue{S: aws.String(b.Tittle)},
+				},
+			}
+			out, err := db.Scan(&scaninput)
+
+			for {
+				if err != nil {
+					break
+				}
+				items = append(items, out.Items...)
+				if len(out.LastEvaluatedKey) == 0 {
+					break
+				}
+				scaninput.ExclusiveStartKey = out.LastEvaluatedKey
+				out, err = db.Scan(&scaninput)
+			}
+
+		} else {
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte("No Tittle or ID submited"))
+		}
+	}
+
+	//output, err := db.Query(query)
+
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 		return
 	}
-	err = dynamodbattribute.UnmarshalMap(output.Item, &b)
+	if len(items) == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	// Pull the Blog out of the data
+
+	err = dynamodbattribute.UnmarshalMap(items[0], &b)
+	//err = dynamodbattribute.UnmarshalMap(output.Items[0], &b)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 		return
 	}
+	// Marshal the blog to send back
+
 	data, err := json.Marshal(b)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 	}
+	// Write the response back
 	w.Write(data)
 }
 
@@ -224,6 +279,7 @@ func fetchBlogPage(w http.ResponseWriter, r *http.Request) {
 	}
 	//fmt.Println(len(blogs))
 	//fmt.Println(blogs)
+
 	data, err := json.Marshal(blogs)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

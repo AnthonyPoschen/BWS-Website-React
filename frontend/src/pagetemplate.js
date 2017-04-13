@@ -35,6 +35,7 @@ let PageTemplate = React.createClass({
                         <LinkContainer to="/"><NavItem eventKey={1} >Home</NavItem></LinkContainer>
                         <LinkContainer to="/Blog"><NavItem eventKey={2} >Blog</NavItem></LinkContainer>
                         <LinkContainer to="/About"><NavItem eventKey={3} >About</NavItem></LinkContainer>
+                        <LinkContainer to="/login"><NavItem eventKey={4}>Login</NavItem></LinkContainer>
                     </Nav>
                 </Navbar>
                 <Grid>

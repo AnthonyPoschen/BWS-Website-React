@@ -7,15 +7,12 @@ import {fetchBlogPage} from '../actions'
 
 const mapStateToProps = (state , ownProps) => {
     return {
-        posts: state.blog.blogs,
+        pageitems: state.blog.BlogPageItems,
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        myClick: () => {
-            console.log("Dispatching")   
-        },
         onLoad: () => {
             console.log("Fetching page")
             dispatch(fetchBlogPage(0,50))
@@ -25,19 +22,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 let Blog = React.createClass({
     componentDidMount(){this.props.onLoad();},
+
     render() {
-        if(this.props.posts === null){
+        if(this.props.pageitems === null){
             return (<div></div>)
         }
+        
         // TODO: fetch this infromation from the server.
-        var posts = this.props.posts.slice(0,8);
+        var posts = this.props.pageitems.slice(0,8);
         
         //<li key={post.id}>{post.title} - {post.content}</li>
         return (
         <div>
         
         {posts.map((post) => (
-            <Link key={post.ID} to={'/BlogPost/' + post.ID + '/' + post.Tittle.replace(/ /g,"_")}>
+            <Link key={post.ID} to={'/BlogPost/' + post.ID + '/' + post.Tittle}>
             <div >
                 <p>{post.Tittle} </p>
                 <small>Author: {post.AuthorName} on {post.PublishDate}</small>

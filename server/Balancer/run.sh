@@ -1,3 +1,3 @@
 echo 'Starting Balancer'
-cd "${0%/*}"
+cd "$(dirname $(readlink -f $0))"
 go run balancer.go

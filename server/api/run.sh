@@ -1,3 +1,3 @@
 echo 'Starting Api'
-cd "${0%/*}"
+cd "$(dirname $(readlink -f $0))"
 go run api.go middleware.go types.go

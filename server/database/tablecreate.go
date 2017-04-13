@@ -22,6 +22,7 @@ const (
 
 	SIndexBlogCategory = "category-index"
 	SIndexBlogAuthor   = "author-index"
+	SIndexBlogTittle   = "tittle-index"
 
 	TableCategory = "Category"
 
@@ -55,7 +56,7 @@ func startup(dev bool) {
 		}
 	}
 	if blogtable == false {
-		fmt.Println("Creating Blog Tabkle")
+		fmt.Println("Creating Blog Table")
 		_, err := db.CreateTable(makeBlogTableSchema())
 		if err != nil {
 			fmt.Println("Error Making Blog Table:", err)
@@ -85,6 +86,10 @@ func makeBlogTableSchema() *dynamodb.CreateTableInput {
 			},
 			{
 				AttributeName: aws.String(AttributeBlogPubDate),
+				AttributeType: aws.String(dynamodb.ScalarAttributeTypeS),
+			},
+			{
+				AttributeName: aws.String(AttributeBlogTittle),
 				AttributeType: aws.String(dynamodb.ScalarAttributeTypeS),
 			},
 		},
@@ -129,6 +134,22 @@ func makeBlogTableSchema() *dynamodb.CreateTableInput {
 				},
 				Projection: &dynamodb.Projection{
 					ProjectionType: aws.String(dynamodb.ProjectionTypeKeysOnly),
+				},
+			},
+			{
+				IndexName: aws.String(SIndexBlogTittle),
+				KeySchema: []*dynamodb.KeySchemaElement{
+					{
+						AttributeName: aws.String(AttributeBlogID),
+						KeyType:       aws.String(dynamodb.KeyTypeHash),
+					},
+					{
+						AttributeName: aws.String(AttributeBlogTittle),
+						KeyType:       aws.String(dynamodb.KeyTypeRange),
+					},
+				},
+				Projection: &dynamodb.Projection{
+					ProjectionType: aws.String(dynamodb.ProjectionTypeAll),
 				},
 			},
 		},

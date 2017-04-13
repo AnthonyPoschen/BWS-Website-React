@@ -17,10 +17,10 @@ export const fetchBlog = (id) => {
 }
 
 export const BLOG_PAGE_RECIEVED = 'BLOG_PAGE_RECIEVED'
-export const blogPageRecieved = (blogpage) => {
+export const blogPageRecieved = (data) => {
     return {
         type: BLOG_PAGE_RECIEVED,
-        payload: blogpage
+        payload: data
     }
 }
 
@@ -50,5 +50,42 @@ export const fetchBlogPage = (page , pagesize) => {
         ).catch( (error) => {
             dispatch(blogPageErrorFetch(error))
         })
+    }
+}
+
+export const BLOG_PAGE_POST_SELECTED = 'BLOG_PAGE_POST_SELECTED'
+export const blogPagePostSelected = (ID) => {
+    return {
+        type: 'BLOG_PAGE_POST_SELECTED',
+        payload: ID
+    }
+}
+
+export const BLOG_POST_FETCH = 'BLOG_POST_FETCH'
+export const blogPostFetch = (Tittle , ID) => {
+    var url = `/api/getblog`
+
+    return (dispatch) => {
+        axios.post(url,{"Tittle": Tittle, "ID": ID}).then(
+            res => {
+                if(res.status != 200)
+                {
+                    // Dispatch Error
+                    return
+                }
+                // Dispatch that we got the blog post !! 
+                dispatch(blogPostRecieved(res.data))
+            },
+        ).catch( (error) => { 
+            // Dispatch Error
+        })
+    }
+}
+
+export const BLOG_POST_RECIEVED = 'BLOG_POST_RECIEVED'
+export const blogPostRecieved = (data) => {
+    return {
+        type: BLOG_POST_RECIEVED,
+        payload: data
     }
 }
