@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+## The target and source can contain spaces as 
+## long as they are quoted. 
+target="./www"
+source="./../../frontend/dist"
+
+while true 
+do 
+  echo "starting frontend update"
+  ## Lets rebuild the files before we copy
+  ##$(cd "./../../frontend" && npm build)
+  exec ./test.bat
+  ## The -u option to cp causes it to only copy files 
+  ## that are newer in $source than in $target. Any files
+  ## not present in $target will be copied.
+  cp -vu "$source"/* "$target"/
+  now=$(date "%r")
+  echo "Frontend Updated at: $now"
+
+  ## Watch for new files, the grep will return true if a file has
+  ## been copied, modified or created.
+  inotifywatch -e modify -e create -e moved_to -t 1 "$source" 2>/dev/null | 
+    grep total && 
+
+  clear
+
+done

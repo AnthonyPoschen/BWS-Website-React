@@ -38,8 +38,6 @@ let App = React.createClass({
         </Route>
       </Router> 
     </Provider>
-
-    
     );
   }
 })

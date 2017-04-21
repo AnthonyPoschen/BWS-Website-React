@@ -1,0 +1,5 @@
+make sure windows is atleast version 1703
+Make sure ubuntu for windows is installed.
+
+apt-get install inotify-tools
+apt-get install nodejs-legacy
